@@ -1,0 +1,27 @@
+{
+  "vault": "~/Obsidian/MyVault",
+  "default_route": { "name": "inbox", "folder": "00-inbox" },
+  "routes": [
+    {
+      "name": "work",
+      "folder": "Work",
+      "keywords": ["meeting", "deadline", "client", "invoice", "standup"],
+      "aliases": ["project", "sprint"]
+    },
+    {
+      "name": "personal",
+      "folder": "Personal",
+      "keywords": ["family", "health", "appointment", "groceries"]
+    },
+    {
+      "name": "ideas",
+      "folder": "Ideas",
+      "keywords": ["idea", "brainstorm", "concept", "what if"]
+    },
+    {
+      "name": "tasks",
+      "folder": "Tasks",
+      "keywords": ["todo", "remind", "follow up", "call back", "buy"]
+    }
+  ]
+}
