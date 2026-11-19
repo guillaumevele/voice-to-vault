@@ -37,7 +37,11 @@ def _cmd_serve(args) -> int:
     from .server import serve  # imported lazily so `ingest`/`route` need no http
     config = load_config(args.config)
     secret = os.environ.get("VOICE_TO_VAULT_SECRET", "")
-    serve(config, host=args.host, port=args.port, secret=secret)
+    try:
+        serve(config, host=args.host, port=args.port, secret=secret)
+    except ValueError as exc:
+        print(f"voice-to-vault: {exc}", file=sys.stderr)
+        return 2
     return 0
 
 

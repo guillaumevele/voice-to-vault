@@ -1,6 +1,7 @@
 """Write a capture as a Markdown note — atomically — into its routed folder."""
 from __future__ import annotations
 
+import json
 import os
 import time
 from dataclasses import dataclass
@@ -39,14 +40,26 @@ def atomic_write_text(path: Path, text: str, encoding: str = "utf-8") -> None:
             tmp.unlink()
 
 
+_YAML_PLAIN_SAFE = frozenset(
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 _-./+"
+)
+
+
+def _yaml_string(s: str) -> str:
+    """One YAML scalar on one line. Anything outside a conservative plain-safe
+    alphabet is emitted as a JSON string, which is a valid YAML double-quoted
+    scalar: quotes, backslashes and newlines are escaped, so capture text can
+    never close the scalar and add or override front-matter keys."""
+    if s and s == s.strip() and not s.startswith("-") and all(c in _YAML_PLAIN_SAFE for c in s):
+        return s
+    return json.dumps(s, ensure_ascii=False)
+
+
 def _yaml_scalar(value: object) -> str:
     if isinstance(value, list):
-        inner = ", ".join(f'"{str(v)}"' for v in value)
+        inner = ", ".join(json.dumps(str(v), ensure_ascii=False) for v in value)
         return f"[{inner}]"
-    s = str(value)
-    if s == "":
-        return '""'
-    return f'"{s}"' if any(c in s for c in ':#\n"') else s
+    return _yaml_string(str(value))
 
 
 def render_note(capture: Capture, route_result: RouteResult, recorded_at: str) -> str:

@@ -82,6 +82,10 @@ voice-to-vault serve --config config.json --port 8765
 Point your provider's webhook at `http://host:8765/`. If `VOICE_TO_VAULT_SECRET`
 is set, requests must carry an `X-Signature: <hex hmac-sha256(body)>` header.
 
+The listener only accepts `Content-Type: application/json` bodies up to 1 MiB,
+and refuses to bind to a non-loopback address (`--host 0.0.0.0`) unless
+`VOICE_TO_VAULT_SECRET` is set.
+
 ## Library
 
 The pieces are usable directly, with no web layer:
