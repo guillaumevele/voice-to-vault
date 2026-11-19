@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "voice-to-vault"
-version = "0.1.0"
+version = "0.1.1"
 description = "Route voice/transcript captures into an Obsidian vault — atomically, idempotently, with no silent loss."
 readme = "README.md"
 requires-python = ">=3.9"

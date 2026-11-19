@@ -14,7 +14,7 @@ from .payload import capture_from_payload
 from .router import RouteResult, route
 from .writer import Capture, write_note
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "Config", "Route", "load_config",
